@@ -1,0 +1,622 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.2.335">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+<meta name="author" content="Patricia Park">
+
+<title>Analysis of the Texas Winter Storm causing intense blackouts</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1.6em;
+  vertical-align: middle;
+}
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { color: #008000; } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { color: #008000; font-weight: bold; } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+
+<script src="Texas-Winter-Storm-Powerloss_files/libs/clipboard/clipboard.min.js"></script>
+<script src="Texas-Winter-Storm-Powerloss_files/libs/quarto-html/quarto.js"></script>
+<script src="Texas-Winter-Storm-Powerloss_files/libs/quarto-html/popper.min.js"></script>
+<script src="Texas-Winter-Storm-Powerloss_files/libs/quarto-html/tippy.umd.min.js"></script>
+<script src="Texas-Winter-Storm-Powerloss_files/libs/quarto-html/anchor.min.js"></script>
+<link href="Texas-Winter-Storm-Powerloss_files/libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="Texas-Winter-Storm-Powerloss_files/libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="Texas-Winter-Storm-Powerloss_files/libs/bootstrap/bootstrap.min.js"></script>
+<link href="Texas-Winter-Storm-Powerloss_files/libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="Texas-Winter-Storm-Powerloss_files/libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+
+
+</head>
+
+<body class="fullcontent">
+
+<div id="quarto-content" class="page-columns page-rows-contents page-layout-article">
+
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title">Analysis of the Texas Winter Storm causing intense blackouts</h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    <div>
+    <div class="quarto-title-meta-heading">Author</div>
+    <div class="quarto-title-meta-contents">
+             <p>Patricia Park </p>
+          </div>
+  </div>
+    
+  
+    
+  </div>
+  
+
+</header>
+
+<div class="cell">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co">#read in libraries</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(sf)</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(terra)</span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(spData)</span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(spDataLarge)</span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(geodata)</span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tmap)</span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(stars)</span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(sp)</span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(raster)</span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggspatial)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<section id="overview" class="level2">
+<h2 class="anchored" data-anchor-id="overview">Overview</h2>
+<p>“In February 2021, the state of Texas suffered a major power crisis, which came about as a result of three severe winter storms sweeping across the United States on February 10–11, 13–17, and 15–20.”<a href="#fn1" class="footnote-ref" id="fnref1" role="doc-noteref"><sup>1</sup></a> For more background, check out these <a href="https://www.youtube.com/watch?v=08mwXICY4JM&amp;ab_channel=PracticalEngineering">engineering</a> and <a href="https://www.youtube.com/watch?v=Zcrsgdl_hP0&amp;ab_channel=Vox">political</a> perspectives.</p>
+<p>Our analysis will be based on remotely-sensed night lights data, acquired from the <a href="https://en.wikipedia.org/wiki/Visible_Infrared_Imaging_Radiometer_Suite">Visible Infrared Imaging Radiometer Suite (VIIRS)</a> onboard the Suomi satellite. to do this, we will use the VNP46A1 to detect differences in night lights before and after the storm to identify areas that lost electric power.</p>
+<p>Our end goal is to determine the number of homes that lost power. The data we will be looking at is from <a href="https://www.openstreetmap.org/#map=4/38.01/-95.84">OpenStreetMap</a> data on buildings and roads.</p>
+<p>To investigate potential socioeconomic factors that influenced recovery, you will link your analysis with data from the US Census Bureau.</p>
+<section id="data-info" class="level3">
+<h3 class="anchored" data-anchor-id="data-info">Data Info</h3>
+<section id="night-lights" class="level4">
+<h4 class="anchored" data-anchor-id="night-lights">Night lights</h4>
+<p>Use NASA’s Worldview to explore the data around the day of the storm. There are several days with too much cloud cover to be useful, but 2021-02-07 and 2021-02-16 provide two clear, contrasting images to visualize the extent of the power outage in Texas.</p>
+<p>VIIRS data is distributed through NASA’s <a href="https://ladsweb.modaps.eosdis.nasa.gov/">Level-1 and Atmospheric Archive &amp; Distribution System Distributed Active Archive Center (LAADS DAAC)</a>. Many NASA Earth data products are distributed in 10x10 degree tiles in sinusoidal equal-area projection. Tiles are identified by their horizontal and vertical position in the grid. Houston lies on the border of tiles h08v05 and h08v06. I therefore need to download two tiles per date.</p>
+</section>
+<section id="roads" class="level4">
+<h4 class="anchored" data-anchor-id="roads">Roads</h4>
+<p>Typically highways account for a large portion of the night lights observable from space (see Google’s <a href="https://earth.google.com/web/@27.44405464,-84.7693044,206.63660162a,8916361.52264659d,35y,0h,0t,0r/data=CiQSIhIgMGY3ZTJkYzdlOGExMTFlNjk5MGQ2ZjgxOGQ2OWE2ZTc">Earth at Night</a>). To minimize falsely identifying areas with reduced traffic as areas without power, I will ignore areas near highways.</p>
+<p><a href="https://planet.openstreetmap.org/">OpenStreetMap (OSM)</a> is a collaborative project which creates publicly available geographic data of the world. Ingesting this data into a database where it can be subsetted and processed is a large undertaking. Fortunately, third party companies redistribute OSM data. I used <a href="https://download.geofabrik.de/">Geofabrik’s download sites</a> to retrieve a shapefile of all highways in Texas and prepared a Geopackage (<code>.gpkg</code> file) containing just the subset of roads that intersect the Houston metropolitan area.&nbsp;</p>
+</section>
+<section id="houses" class="level4">
+<h4 class="anchored" data-anchor-id="houses">Houses</h4>
+<p>I also obtained building data from OpenStreetMap. I again downloaded from Geofabrick and prepared a GeoPackage containing only houses in the Houston metropolitan area.</p>
+</section>
+<section id="socioeconomic" class="level4">
+<h4 class="anchored" data-anchor-id="socioeconomic">Socioeconomic</h4>
+<p>We cannot readily get socioeconomic information for every home, so instead I obtained data from the <a href="https://www.census.gov/programs-surveys/acs">U.S. Census Bureau’s American Community Survey</a> for census tracts in 2019. The <em>folder</em> <code>ACS_2019_5YR_TRACT_48.gdb</code> is an ArcGIS <a href="https://desktop.arcgis.com/en/arcmap/latest/manage-data/administer-file-gdbs/file-geodatabases.htm">“file geodatabase”</a>, a multi-file proprietary format that’s roughly analogous to a GeoPackage file.</p>
+<p><em>Note</em>: You can use <code>st_layers()</code> to explore the contents of the geodatabase. Each layer contains a subset of the fields documents in the <a href="https://www2.census.gov/geo/docs/maps-data/data/tiger/prejoined/ACSMetadata2011.txt">ACS metadata</a>.</p>
+</section>
+<section id="find-locations-of-blackouts" class="level4">
+<h4 class="anchored" data-anchor-id="find-locations-of-blackouts">Find locations of blackouts</h4>
+<p><em>For improved computational efficiency and easier interoperability with <code>sf</code>, I recommend using the <code>stars</code> package for raster handling.</em></p>
+<p>In this section, I’ll go ahead and</p>
+<ul>
+<li>read in night lights tiles and</li>
+<li>combine tiles into a single <code>stars</code> object for each date (2021-02-07 and 2021-02-16)</li>
+</ul>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="co">#Read in and combine .tif files:</span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="co">#read in stars .tif</span></span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>night_lights1_02_07 <span class="ot">&lt;-</span> <span class="fu">read_stars</span>(<span class="st">"../data/VNP46A1/VNP46A1.A2021038.h08v05.001.2021039064328.tif"</span>)</span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>night_lights2_02_07 <span class="ot">&lt;-</span> <span class="fu">read_stars</span>(<span class="st">"../data/VNP46A1/VNP46A1.A2021038.h08v06.001.2021039064329.tif"</span>)</span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>night_lights3_02_16 <span class="ot">&lt;-</span> <span class="fu">read_stars</span>(<span class="st">"../data/VNP46A1/VNP46A1.A2021047.h08v05.001.2021048091106.tif"</span>)</span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>night_lights4_02_16 <span class="ot">&lt;-</span> <span class="fu">read_stars</span>(<span class="st">"../data/VNP46A1/VNP46A1.A2021047.h08v06.001.2021048091105.tif"</span>)</span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a><span class="co">#combine 02-07 stars files together</span></span>
+<span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a>night_light_combine_02_07 <span class="ot">&lt;-</span> <span class="fu">st_mosaic</span>(night_lights1_02_07, </span>
+<span id="cb2-12"><a href="#cb2-12" aria-hidden="true" tabindex="-1"></a>                                 night_lights2_02_07,</span>
+<span id="cb2-13"><a href="#cb2-13" aria-hidden="true" tabindex="-1"></a>                                 <span class="at">file_ext =</span> <span class="st">".tif"</span>)</span>
+<span id="cb2-14"><a href="#cb2-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-15"><a href="#cb2-15" aria-hidden="true" tabindex="-1"></a><span class="co">#combine 02-16 stars files together</span></span>
+<span id="cb2-16"><a href="#cb2-16" aria-hidden="true" tabindex="-1"></a>night_light_combine_02_16 <span class="ot">&lt;-</span> <span class="fu">st_mosaic</span>(night_lights3_02_16, </span>
+<span id="cb2-17"><a href="#cb2-17" aria-hidden="true" tabindex="-1"></a>                                 night_lights4_02_16,</span>
+<span id="cb2-18"><a href="#cb2-18" aria-hidden="true" tabindex="-1"></a>                                 <span class="at">file_ext =</span> <span class="st">".tif"</span>)</span>
+<span id="cb2-19"><a href="#cb2-19" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-20"><a href="#cb2-20" aria-hidden="true" tabindex="-1"></a><span class="co">#plot 02-07 star file to see if they were correctly combined</span></span>
+<span id="cb2-21"><a href="#cb2-21" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(night_light_combine_02_07, <span class="at">main =</span> <span class="st">"2/06 Houston Satellite Image"</span>, <span class="at">axes =</span> <span class="cn">TRUE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="Texas-Winter-Storm-Powerloss_files/figure-html/unnamed-chunk-2-1.png" class="img-fluid" width="672"></p>
+</div>
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="co">#plot 02-16 star file to see if they were correctly combined</span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(night_light_combine_02_16, <span class="at">main =</span> <span class="st">"2/17 Houston Satellite Image"</span>, <span class="at">axes =</span> <span class="cn">TRUE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="Texas-Winter-Storm-Powerloss_files/figure-html/unnamed-chunk-2-2.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<p>Here, I can see what the image looks like completed for both dates.</p>
+<section id="create-a-blackout-mask" class="level5">
+<h5 class="anchored" data-anchor-id="create-a-blackout-mask">Create a blackout mask</h5>
+<p>In order to find the difference in night light intensity, I’ll have to reclassify the rasters to easily spot the difference. For this section I’ll:</p>
+<ul>
+<li>find the change in night lights intensity (presumably) caused by the storm</li>
+<li>reclassify the difference raster, assuming that any location that experienced a drop of more than 200 nW cm<sup>-2</sup>sr<sup>-1</sup> experienced a blackout</li>
+<li>assign <code>NA</code> to all locations that experienced a drop of <em>less</em> than 200 nW cm<sup>-2</sup>sr<sup>-1</sup></li>
+</ul>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="co">#Find change in night light intensity:</span></span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="co">#find the difference between the two night lights intensity</span></span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>night_light_change <span class="ot">&lt;-</span> (night_light_combine_02_07 <span class="sc">-</span> night_light_combine_02_16)</span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a><span class="co">#plot night_light_change to see the outcome</span></span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(night_light_change, <span class="at">main =</span> <span class="st">"Houston Blackout Mask Change"</span>, <span class="at">axes =</span> <span class="cn">TRUE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="Texas-Winter-Storm-Powerloss_files/figure-html/unnamed-chunk-3-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="co">#Reclassify and plot reclassified night light change:</span></span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="co">#reclassify the difference in night light change to show those that are above and below 200</span></span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>night_light_change_reclassify <span class="ot">&lt;-</span> <span class="fu">cut</span>(<span class="at">x =</span> night_light_change, <span class="at">breaks =</span> <span class="fu">c</span>(<span class="sc">-</span><span class="cn">Inf</span>, <span class="dv">200</span>, <span class="cn">Inf</span>), <span class="at">labels =</span> <span class="fu">c</span>(<span class="st">"Below 200"</span>, <span class="st">"Above and Including 200"</span>)) <span class="co">#rename legend labels</span></span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a><span class="co">#plot reclassified matrix to see if it was changed</span></span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(night_light_change_reclassify, </span>
+<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a>     <span class="at">main =</span> <span class="st">"Houston Blackout Mask Reclassified"</span>, </span>
+<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a>     <span class="at">axes =</span> <span class="cn">TRUE</span>,</span>
+<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a>     <span class="at">key.pos =</span> <span class="dv">1</span>, <span class="co">#position of key is at bottom</span></span>
+<span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a>     <span class="at">col =</span> <span class="fu">c</span>(<span class="st">'white'</span>, <span class="st">'black'</span>)) <span class="co">#change color scheme</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="Texas-Winter-Storm-Powerloss_files/figure-html/unnamed-chunk-4-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="co">#create a blackout mask that has those that are greater than 200 nW cm^-2^sr^-1^:</span></span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a><span class="co">#assign NA to values that are below 200</span></span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>night_light_change[night_light_change <span class="sc">&lt;=</span> <span class="dv">200</span>] <span class="ot">=</span> <span class="cn">NA</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="vectorize-the-mask" class="level5">
+<h5 class="anchored" data-anchor-id="vectorize-the-mask">Vectorize the mask</h5>
+<p>Currently, we’re working with a STARS file. To make our other analysis in this notebook easier, we’re going to convert it into a simple feature file. This section will cover the following:</p>
+<ul>
+<li>use <code>st_as_sf()</code> to vectorize the blackout mask</li>
+<li>fix any invalid geometries using <code>st_make_valid</code></li>
+</ul>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="co">#Vectorize blackout mask and fix geometries:</span></span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a><span class="co">#vectorize the blackout mask</span></span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>night_light_change_sf <span class="ot">&lt;-</span> <span class="fu">st_as_sf</span>(night_light_change)</span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a><span class="co">#fix invalid geometries</span></span>
+<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a>night_light_change_sf_fix <span class="ot">&lt;-</span> <span class="fu">st_make_valid</span>(night_light_change_sf)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="crop-the-vectorized-map-to-our-region-of-interest" class="level5">
+<h5 class="anchored" data-anchor-id="crop-the-vectorized-map-to-our-region-of-interest">Crop the vectorized map to our region of interest</h5>
+<p>For the past steps, We’ve been looking at Texas as a whole. However, I am interested in looking at Houston specifically and how much power it lost overall during the storms. In order to do that, I’ll do the following steps:</p>
+<ul>
+<li>define the Houston metropolitan area with the following coordinates
+<ul>
+<li>(-96.5, 29), (-96.5, 30.5), (-94.5, 30.5), (-94.5, 29)</li>
+</ul></li>
+<li>turn these coordinates into a polygon using <code>st_polygon</code></li>
+<li>convert the polygon into a simple feature collection using <code>st_sfc()</code> and assign a CRS</li>
+<li>crop (spatially subset) the blackout mask to our region of interest</li>
+<li>re-project the cropped blackout dataset to EPSG:3083 (NAD83 / Texas Centric Albers Equal Area)</li>
+</ul>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="co">#Create polygon:</span></span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a><span class="co">#create matrix with coordinates</span></span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>houston_matrix <span class="ot">&lt;-</span> <span class="fu">matrix</span>(<span class="fu">c</span>(<span class="sc">-</span><span class="fl">96.5</span>,<span class="dv">29</span>,<span class="sc">-</span><span class="fl">96.5</span>,<span class="fl">30.5</span>,<span class="sc">-</span><span class="fl">94.5</span>,<span class="fl">30.5</span>,<span class="sc">-</span><span class="fl">94.5</span>,<span class="dv">29</span>,<span class="sc">-</span><span class="fl">96.5</span>,<span class="dv">29</span>), <span class="at">ncol =</span> <span class="dv">2</span>, <span class="at">byrow =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a><span class="co">#make the matrix a polygon of houston</span></span>
+<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a>houston_polygon <span class="ot">&lt;-</span> <span class="fu">st_polygon</span>(<span class="fu">list</span>(houston_matrix))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="co">#Change CRS to be EPSG:3083:</span></span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a><span class="co">#see what the crs is for the night_light_change sf</span></span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a><span class="fu">st_crs</span>(night_light_change_sf_fix)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Coordinate Reference System:
+  User input: WGS 84 
+  wkt:
+GEOGCRS["WGS 84",
+    DATUM["World Geodetic System 1984",
+        ELLIPSOID["WGS 84",6378137,298.257223563,
+            LENGTHUNIT["metre",1]]],
+    PRIMEM["Greenwich",0,
+        ANGLEUNIT["degree",0.0174532925199433]],
+    CS[ellipsoidal,2],
+        AXIS["geodetic latitude (Lat)",north,
+            ORDER[1],
+            ANGLEUNIT["degree",0.0174532925199433]],
+        AXIS["geodetic longitude (Lon)",east,
+            ORDER[2],
+            ANGLEUNIT["degree",0.0174532925199433]],
+    ID["EPSG",4326]]</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="co">#change the crs of the houston polygon</span></span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>houston_sf_4326 <span class="ot">&lt;-</span> <span class="fu">st_sfc</span>(houston_polygon, <span class="at">crs =</span> <span class="st">'EPSG:4326'</span>)</span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a><span class="co">#crop the night_light_change_sf to fit the houston_sf polygon (crs is 4326)</span></span>
+<span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a>night_light_cropped_4326 <span class="ot">&lt;-</span> <span class="fu">st_crop</span>(night_light_change_sf_fix, houston_sf_4326)</span>
+<span id="cb11-6"><a href="#cb11-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-7"><a href="#cb11-7" aria-hidden="true" tabindex="-1"></a><span class="co">#transform the crs to EPSG:3083</span></span>
+<span id="cb11-8"><a href="#cb11-8" aria-hidden="true" tabindex="-1"></a>night_light_cropped_3083 <span class="ot">&lt;-</span> <span class="fu">st_transform</span>(night_light_cropped_4326, <span class="at">crs =</span> <span class="st">"EPSG:3083"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="exclude-highways-from-blackout-mask" class="level5">
+<h5 class="anchored" data-anchor-id="exclude-highways-from-blackout-mask">exclude highways from blackout mask</h5>
+<p>The roads geopackage includes data on roads other than highways. However, I can avoid reading in data I don’t need by taking advantage of <code>st_read</code>’s ability to subset using a SQL query. An SQL query is a command line we can feed into our code to get our desired data out of a database. It helps with getting the needed information you want in an easier manner. In this case, we are using it to help us filter for specific observations we are interested in.</p>
+<ul>
+<li>load just highway data from geopackage using <code>st_read</code></li>
+<li>reproject data to EPSG:3083</li>
+<li>identify areas within 200m of all highways using <code>st_buffer</code></li>
+</ul>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="co">#change CRS of highway to 3083</span></span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>highway_3083 <span class="ot">&lt;-</span> <span class="fu">st_transform</span>(highway, <span class="at">crs =</span> <span class="st">"EPSG:3083"</span>)</span>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a><span class="co">#create a buffer of 200 meters around the highways and union them to get one polygon</span></span>
+<span id="cb12-6"><a href="#cb12-6" aria-hidden="true" tabindex="-1"></a>highway_200 <span class="ot">&lt;-</span> <span class="fu">st_buffer</span>(highway_3083, <span class="at">dist =</span> <span class="dv">200</span>)</span>
+<span id="cb12-7"><a href="#cb12-7" aria-hidden="true" tabindex="-1"></a>highway_200_union <span class="ot">&lt;-</span> <span class="fu">st_union</span>(highway_200)</span>
+<span id="cb12-8"><a href="#cb12-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-9"><a href="#cb12-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-10"><a href="#cb12-10" aria-hidden="true" tabindex="-1"></a><span class="co">#crop night light blackout mask to find those that are outside  highway_200_union</span></span>
+<span id="cb12-11"><a href="#cb12-11" aria-hidden="true" tabindex="-1"></a>night_light_cropped_highway <span class="ot">&lt;-</span> <span class="fu">st_difference</span>(night_light_cropped_3083, highway_200_union)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+</section>
+<section id="find-homes-impacted-by-blackouts" class="level4">
+<h4 class="anchored" data-anchor-id="find-homes-impacted-by-blackouts">Find homes impacted by blackouts</h4>
+<section id="load-buildings-data" class="level5">
+<h5 class="anchored" data-anchor-id="load-buildings-data">load buildings data</h5>
+<p>After all of that data wrangling, I can start and look at the homes that were impacted. In this case, we’re going to use SQL to help filter for residential buildings only.</p>
+</section>
+<section id="find-homes-in-blackout-areas" class="level5">
+<h5 class="anchored" data-anchor-id="find-homes-in-blackout-areas">find homes in blackout areas</h5>
+<p>After that filtering step, I’ll go ahead and filter once more for the homes that are within blackout areas. Since I am curious on how many homes, I’ll create a step to print how many homes were impacted.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="co">#Filter and find impacted homes in blackout areas:</span></span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a><span class="co">#check if crs are the same</span></span>
+<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(<span class="fu">paste</span>(<span class="st">"The two CRS are the same:"</span>, <span class="fu">st_crs</span>(building_texas) <span class="sc">==</span> <span class="fu">st_crs</span>(night_light_cropped_3083)))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] "The two CRS are the same: TRUE"</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="co">#filter to home that are with in the blackout areas</span></span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>buildings_cropped <span class="ot">&lt;-</span> building_texas <span class="sc">%&gt;%</span> </span>
+<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">st_filter</span>(night_light_cropped_highway, </span>
+<span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a>            <span class="at">.predicate =</span> st_intersects)</span>
+<span id="cb15-5"><a href="#cb15-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-6"><a href="#cb15-6" aria-hidden="true" tabindex="-1"></a><span class="co">#count number of impacted homes from filtered dataset</span></span>
+<span id="cb15-7"><a href="#cb15-7" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(<span class="fu">paste</span>(<span class="st">"Number of impacted homes:"</span>, <span class="fu">length</span>(<span class="fu">unique</span>(buildings_cropped<span class="sc">$</span>osm_id))))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] "Number of impacted homes: 157408"</code></pre>
+</div>
+</div>
+</section>
+</section>
+<section id="investigate-socioeconomic-factors" class="level4">
+<h4 class="anchored" data-anchor-id="investigate-socioeconomic-factors">Investigate socioeconomic factors</h4>
+<section id="load-acs-data" class="level5">
+<h5 class="anchored" data-anchor-id="load-acs-data">Load ACS data</h5>
+<p>Now that we know how many homes are impacted by the winter storms, let’s go ahead and relate this data with income. Before we can compare the two, I’ll need to load in the data. In this section, I’ll load in the median income field associated with Houston.</p>
+</section>
+<section id="determine-which-census-tracts-experienced-blackouts" class="level5">
+<h5 class="anchored" data-anchor-id="determine-which-census-tracts-experienced-blackouts">Determine which census tracts experienced blackouts</h5>
+<p>I want to be able to work with my data easily, so I’ll go ahead and join the dataset on houses and the dataset on income together. These are the following steps I’ll take:</p>
+<ul>
+<li>join the income data to the census tract geometries</li>
+<li>spatially join census tract data with buildings determined to be impacted by blackouts</li>
+<li>how many census tracts had blackouts</li>
+</ul>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="co">#Join datasets and find out how many census tracks had blackouts:</span></span>
+<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a><span class="co">#join the two dataset at GEOID_Data</span></span>
+<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a>texas_join <span class="ot">&lt;-</span> <span class="fu">left_join</span>(texas_gdb, houston_income, <span class="at">by =</span> <span class="st">'GEOID_Data'</span>) <span class="sc">%&gt;%</span> </span>
+<span id="cb17-4"><a href="#cb17-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">st_transform</span>(<span class="at">crs =</span> <span class="st">"EPSG:3083"</span>) <span class="sc">%&gt;%</span> <span class="co">#transform CRS to 3083</span></span>
+<span id="cb17-5"><a href="#cb17-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">rename_at</span>(<span class="st">'B19013e1'</span>, <span class="sc">~</span><span class="st">'Income'</span>) <span class="co">#rename to Income</span></span>
+<span id="cb17-6"><a href="#cb17-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-7"><a href="#cb17-7" aria-hidden="true" tabindex="-1"></a><span class="co">#spatially join the census data to houston building cropped to the night light mask</span></span>
+<span id="cb17-8"><a href="#cb17-8" aria-hidden="true" tabindex="-1"></a>texas_building_polygon <span class="ot">&lt;-</span> <span class="fu">st_join</span>(texas_join, buildings_cropped)</span>
+<span id="cb17-9"><a href="#cb17-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-10"><a href="#cb17-10" aria-hidden="true" tabindex="-1"></a><span class="co">#filter only to buildings_cropped</span></span>
+<span id="cb17-11"><a href="#cb17-11" aria-hidden="true" tabindex="-1"></a>texas_building_polygon_filter <span class="ot">&lt;-</span> <span class="fu">st_filter</span>(texas_join, buildings_cropped)</span>
+<span id="cb17-12"><a href="#cb17-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-13"><a href="#cb17-13" aria-hidden="true" tabindex="-1"></a><span class="co">#take out the NA's in Income column</span></span>
+<span id="cb17-14"><a href="#cb17-14" aria-hidden="true" tabindex="-1"></a>texas_building_filter_na <span class="ot">&lt;-</span> texas_building_polygon_filter[<span class="sc">!</span><span class="fu">is.na</span>(texas_building_polygon_filter<span class="sc">$</span>Income),]</span>
+<span id="cb17-15"><a href="#cb17-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-16"><a href="#cb17-16" aria-hidden="true" tabindex="-1"></a><span class="co">#look at the length of unique GEOID to see which census tracks had blackouts</span></span>
+<span id="cb17-17"><a href="#cb17-17" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(<span class="fu">paste</span>(<span class="st">"Number of census tracts that had blackouts:"</span>, <span class="fu">length</span>(<span class="fu">unique</span>(texas_building_filter_na<span class="sc">$</span>GEOID))))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] "Number of census tracts that had blackouts: 750"</code></pre>
+</div>
+</div>
+</section>
+<section id="compare-incomes-of-impacted-tracts-to-unimpacted-tracts" class="level5">
+<h5 class="anchored" data-anchor-id="compare-incomes-of-impacted-tracts-to-unimpacted-tracts">compare incomes of impacted tracts to unimpacted tracts</h5>
+<p>After all this analysis, it’s always best practice to visualize what you did. In this case, I’ll go ahead and create two visualizations by:</p>
+<ul>
+<li>creating a map of median income by census tract, designating which tracts had blackouts</li>
+<li>plotting the distribution of income in impacted and unimpacted tracts</li>
+</ul>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="co">#Create a map of the median income of Houston census tracks that includes which tracts were impacted by the blackouts:</span></span>
+<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a><span class="co">#setup for making map: (crop does not work if CRS is not 4326)</span></span>
+<span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a><span class="co">#change the crs of the texas_join to 4326</span></span>
+<span id="cb19-4"><a href="#cb19-4" aria-hidden="true" tabindex="-1"></a>texas_join_4326 <span class="ot">&lt;-</span> <span class="fu">st_transform</span>(texas_join, <span class="at">crs =</span> <span class="st">'EPSG:4326'</span>)</span>
+<span id="cb19-5"><a href="#cb19-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-6"><a href="#cb19-6" aria-hidden="true" tabindex="-1"></a><span class="co">#crop texas_building_polygon_filter to Houston polygon</span></span>
+<span id="cb19-7"><a href="#cb19-7" aria-hidden="true" tabindex="-1"></a>texas_houston <span class="ot">&lt;-</span> <span class="fu">st_crop</span>(texas_join_4326, houston_sf_4326)</span>
+<span id="cb19-8"><a href="#cb19-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-9"><a href="#cb19-9" aria-hidden="true" tabindex="-1"></a><span class="co">#change the crs to 3083</span></span>
+<span id="cb19-10"><a href="#cb19-10" aria-hidden="true" tabindex="-1"></a>texas_houston_3083 <span class="ot">&lt;-</span> <span class="fu">st_transform</span>(texas_houston, <span class="at">crs =</span> <span class="st">'EPSG:3083'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="co">#plot map of median income indicating if there was blackout map or not</span></span>
+<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a>income_blackout_map <span class="ot">&lt;-</span><span class="fu">ggplot</span>() <span class="sc">+</span></span>
+<span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_bw</span>() <span class="sc">+</span></span>
+<span id="cb20-4"><a href="#cb20-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_sf</span>(<span class="at">data =</span> texas_houston_3083, <span class="co">#all of houston data</span></span>
+<span id="cb20-5"><a href="#cb20-5" aria-hidden="true" tabindex="-1"></a>          <span class="fu">aes</span>(<span class="at">fill =</span> Income)) <span class="sc">+</span> <span class="co">#fill is income</span></span>
+<span id="cb20-6"><a href="#cb20-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_sf</span>(<span class="at">data =</span> texas_building_filter_na, <span class="co">#data that is impacted by the blackout</span></span>
+<span id="cb20-7"><a href="#cb20-7" aria-hidden="true" tabindex="-1"></a>          <span class="fu">aes</span>(<span class="at">color =</span> <span class="st">'red'</span>), <span class="co">#color outline is red</span></span>
+<span id="cb20-8"><a href="#cb20-8" aria-hidden="true" tabindex="-1"></a>          <span class="at">fill =</span> <span class="cn">NA</span>,</span>
+<span id="cb20-9"><a href="#cb20-9" aria-hidden="true" tabindex="-1"></a>          <span class="at">show.legend =</span> <span class="cn">TRUE</span>) <span class="sc">+</span></span>
+<span id="cb20-10"><a href="#cb20-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_color_hue</span>(<span class="st">'Blackout Area'</span>, <span class="at">labels =</span> <span class="st">"Area of Blackout"</span>) <span class="sc">+</span> <span class="co">#add legend</span></span>
+<span id="cb20-11"><a href="#cb20-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"Median income of Houston, indicating which census tracts had blackouts"</span>) <span class="sc">+</span> <span class="co">#add title</span></span>
+<span id="cb20-12"><a href="#cb20-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">annotation_scale</span>() <span class="sc">+</span> <span class="co">#add scale bar</span></span>
+<span id="cb20-13"><a href="#cb20-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">annotation_north_arrow</span>(<span class="at">location =</span> <span class="st">"br"</span>, <span class="co">#add north arrow</span></span>
+<span id="cb20-14"><a href="#cb20-14" aria-hidden="true" tabindex="-1"></a>                         <span class="at">style =</span> ggspatial<span class="sc">::</span>north_arrow_nautical) </span>
+<span id="cb20-15"><a href="#cb20-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-16"><a href="#cb20-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-17"><a href="#cb20-17" aria-hidden="true" tabindex="-1"></a><span class="co">#plot histogram of median income count showing how many were impacted by the blackout or not</span></span>
+<span id="cb20-18"><a href="#cb20-18" aria-hidden="true" tabindex="-1"></a>income_blackout_hist <span class="ot">&lt;-</span> <span class="fu">ggplot</span>() <span class="sc">+</span></span>
+<span id="cb20-19"><a href="#cb20-19" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_histogram</span>(<span class="at">data =</span> texas_houston_3083, <span class="co">#all of houston data</span></span>
+<span id="cb20-20"><a href="#cb20-20" aria-hidden="true" tabindex="-1"></a>                 <span class="fu">aes</span>(<span class="at">x =</span> Income, <span class="co">#plotting Income</span></span>
+<span id="cb20-21"><a href="#cb20-21" aria-hidden="true" tabindex="-1"></a>                     <span class="at">fill =</span> <span class="st">'Income'</span>), <span class="co">#fill is true</span></span>
+<span id="cb20-22"><a href="#cb20-22" aria-hidden="true" tabindex="-1"></a>                 <span class="at">show.legend =</span> <span class="cn">TRUE</span>) <span class="sc">+</span></span>
+<span id="cb20-23"><a href="#cb20-23" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_histogram</span>(<span class="at">data =</span> texas_building_filter_na, <span class="co">#data that is impacted by the blackout</span></span>
+<span id="cb20-24"><a href="#cb20-24" aria-hidden="true" tabindex="-1"></a>                 <span class="fu">aes</span>(<span class="at">x =</span> Income, <span class="co">#plotting Income</span></span>
+<span id="cb20-25"><a href="#cb20-25" aria-hidden="true" tabindex="-1"></a>                     <span class="at">fill =</span> <span class="st">'Income2'</span>), <span class="co">#fill is true</span></span>
+<span id="cb20-26"><a href="#cb20-26" aria-hidden="true" tabindex="-1"></a>                 <span class="at">show.legend =</span> <span class="cn">TRUE</span>) <span class="sc">+</span></span>
+<span id="cb20-27"><a href="#cb20-27" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_fill_manual</span>(<span class="at">name =</span> <span class="st">'Blackout Area'</span>, <span class="at">values =</span> <span class="fu">c</span>(<span class="st">'lightskyblue'</span>, <span class="st">'indianred2'</span>), <span class="at">labels =</span> <span class="fu">c</span>(<span class="st">'Unimpacted'</span>, <span class="st">'Impacted'</span>)) <span class="sc">+</span> <span class="co">#add legend</span></span>
+<span id="cb20-28"><a href="#cb20-28" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"Distribution of Median Income in Houston"</span>, <span class="co">#add title</span></span>
+<span id="cb20-29"><a href="#cb20-29" aria-hidden="true" tabindex="-1"></a>       <span class="at">y =</span> <span class="st">"Count"</span>) <span class="co">#add y axis label</span></span>
+<span id="cb20-30"><a href="#cb20-30" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-31"><a href="#cb20-31" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(income_blackout_map)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="Texas-Winter-Storm-Powerloss_files/figure-html/unnamed-chunk-16-1.png" class="img-fluid" width="672"></p>
+</div>
+<div class="sourceCode cell-code" id="cb21"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(income_blackout_hist)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="Texas-Winter-Storm-Powerloss_files/figure-html/unnamed-chunk-16-2.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<p><strong>Final thoughts</strong>: Looking at the map, many of the impacted tracts were the ones closer to the middle of Houston. A more informative plot is the histogram, where income is shown to have an impact on if there was a blackout in that area. This histogram can be interpreted as a stacked histogram. Many of the blackout areas happened in lower-income tracts, with very few blackouts in areas with higher median incomes. A limitation of this study is not knowing the number of people living in these blackout areas. More people translates to more energy being used. While the blackouts at large could have been caused by the storm, there may be a possibility that the high use of energy in those areas may have contributed to the blackout as seen on the map and graph.</p>
+</section>
+</section>
+</section>
+</section>
+
+
+<div id="quarto-appendix" class="default"><section id="footnotes" class="footnotes footnotes-end-of-document" role="doc-endnotes"><h2 class="anchored quarto-appendix-heading">Footnotes</h2>
+
+<ol>
+<li id="fn1"><p>Wikipedia. 2021. “2021 Texas power crisis.” Last modified October 2, 2021. <a href="https://en.wikipedia.org/wiki/2021_Texas_power_crisis" class="uri">https://en.wikipedia.org/wiki/2021_Texas_power_crisis</a>.<a href="#fnref1" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+</ol>
+</section></div></main>
+<!-- /main column -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const clipboard = new window.ClipboardJS('.code-copy-button', {
+    target: function(trigger) {
+      return trigger.previousElementSibling;
+    }
+  });
+  clipboard.on('success', function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "Copied!");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  });
+  function tippyHover(el, contentFn) {
+    const config = {
+      allowHTML: true,
+      content: contentFn,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start'
+    };
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      return note.innerHTML;
+    });
+  }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
+});
+</script>
+</div> <!-- /content -->
+
+
+
+</body></html>

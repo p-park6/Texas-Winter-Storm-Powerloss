@@ -1,5 +1,5 @@
 ---
-title: "Analysis of Texas Winter Storm causing Power loss"
+title: "Analysis of the Texas Winter Storm causing intense blackouts"
 author: "Patricia Park"
 format: html
 editor: visual
@@ -162,7 +162,7 @@ night_light_change_sf_fix <- st_make_valid(night_light_change_sf)
 
 ##### Crop the vectorized map to our region of interest 
 
-
+For the past steps, We've been looking at Texas as a whole. However, I am interested in looking at Houston specifically and how much power it lost overall during the storms. In order to do that, I'll do the following steps:
 
 -   define the Houston metropolitan area with the following coordinates
     -   (-96.5, 29), (-96.5, 30.5), (-94.5, 30.5), (-94.5, 29)
@@ -179,9 +179,6 @@ houston_matrix <- matrix(c(-96.5,29,-96.5,30.5,-94.5,30.5,-94.5,29,-96.5,29), nc
 #make the matrix a polygon of houston
 houston_polygon <- st_polygon(list(houston_matrix))
 
-#SELF CHECK
-#plot the houston polygon
-plot(houston_polygon)
 ```
 
 ```{r, warning = FALSE}
@@ -195,29 +192,19 @@ houston_sf_4326 <- st_sfc(houston_polygon, crs = 'EPSG:4326')
 #crop the night_light_change_sf to fit the houston_sf polygon (crs is 4326)
 night_light_cropped_4326 <- st_crop(night_light_change_sf_fix, houston_sf_4326)
 
-#SELF CHECK: check CRS if it was properly changed to 4326
-#st_crs(night_light_cropped_4326)
-
 #transform the crs to EPSG:3083
 night_light_cropped_3083 <- st_transform(night_light_cropped_4326, crs = "EPSG:3083")
 
-#SELF CHECK: check if CRS was properly changed to 3083
-#st_crs(night_light_cropped_3083)
 ```
 
-##### exclude highways from blackout mask (10 points)
+##### exclude highways from blackout mask
 
-The roads geopackage includes data on roads other than highways. However, we can avoid reading in data we don't need by taking advantage of `st_read`'s ability to subset using a SQL query.
+The roads geopackage includes data on roads other than highways. However, I can avoid reading in data I don't need by taking advantage of `st_read`'s ability to subset using a SQL query. An SQL query is a command line we can feed into our code to get our desired data out of a database. It helps with getting the needed information you want in an easier manner. In this case, we are using it to help us filter for specific observations we are interested in.
 
--   define SQL query
-    -   **Answer**: It's a command to get data out of a database. It helps with getting the needed information you want in an easier manner. In this case, we are using it to help us filter for specific observations we are interested in.
 -   load just highway data from geopackage using `st_read`
 -   reproject data to EPSG:3083
 -   identify areas within 200m of all highways using `st_buffer`
-    -   hint: `st_buffer` produces undissolved buffers, use `st_union` to dissolve them
--   find areas that experienced blackouts that are further than 200m from a highway
 
-`query <- "SELECT * FROM gis_osm_roads_free_1 WHERE fclass='motorway'"` `highways <- st_read("data/gis_osm_roads_free_1.gpkg", query = query)`
 
 ```{r include=FALSE, warning = FALSE}
 #Create a buffer within 200m from highways and filter to areas that experience blackouts further than 200m from the highway:
@@ -226,42 +213,29 @@ query <- "SELECT * FROM gis_osm_roads_free_1 WHERE fclass='motorway'"
 highway <- st_read("../data/gis_osm_roads_free_1.gpkg", query = query)
 
 
-#SELF CHECK: plot highway to see if I just got highway skeleton
-#plot(highway)
 ```
 
 ```{r warning = FALSE}
-
 #change CRS of highway to 3083
 highway_3083 <- st_transform(highway, crs = "EPSG:3083")
+
 
 #create a buffer of 200 meters around the highways and union them to get one polygon
 highway_200 <- st_buffer(highway_3083, dist = 200)
 highway_200_union <- st_union(highway_200)
 
 
-#SELF CHECK: plot highway to see if I just got highway skeleton
-#plot(highway_200_union)
-
-
 #crop night light blackout mask to find those that are outside  highway_200_union
 night_light_cropped_highway <- st_difference(night_light_cropped_3083, highway_200_union)
-print(paste("Number of areas that are over 200m away:", nrow(night_light_cropped_highway)))
 
-
-#SELF CHECK: plot the cropped night mask and see how many observations there are
-plot(night_light_cropped_highway)
-#nrow(night_light_cropped_highway)
 ```
 
 #### Find homes impacted by blackouts
 
-##### load buildings data (10 points)
+##### load buildings data
 
--   load buildings dataset using `st_read` and the following SQL query to select only residential buildings
--   hint: reproject data to EPSG:3083
+After all of that data wrangling, I can start and look at the homes that were impacted. In this case, we're going to use SQL to help filter for residential buildings only.
 
-`SELECT *` `FROM gis_osm_buildings_a_free_1` `WHERE (type IS NULL AND name IS NULL)` `OR type in ('residential', 'apartments', 'house', 'static_caravan', 'detached')`
 
 ```{r include=FALSE, warning = FALSE}
 #Load in dataset and transform CRS:
@@ -272,16 +246,12 @@ building <- st_read("../data/gis_osm_buildings_a_free_1.gpkg", query = query2)
 #transform building dataset to CRS 3083
 building_texas <- st_transform(building, crs = 'EPSG:3083')
 
-
-#SELF CHECK see if CRS was properly transformed
-#st_crs(building_texas)
-
 ```
 
-##### find homes in blackout areas (20 points)
+##### find homes in blackout areas
 
--   filter to homes within blackout areas
--   count number of impacted homes
+After that filtering step, I'll go ahead and filter once more for the homes that are within blackout areas. Since I am curious on how many homes, I'll create a step to print how many homes were impacted.
+
 
 ```{r include=TRUE}
 #Filter and find impacted homes in blackout areas:
@@ -296,35 +266,14 @@ buildings_cropped <- building_texas %>%
 #count number of impacted homes from filtered dataset
 print(paste("Number of impacted homes:", length(unique(buildings_cropped$osm_id))))
 
-#SELF CHECK: check if our filtered dataset fits in the cropped houston polygon
-
-#change houston polygon CRS to 3083
-#houston_sf_3083 <- st_sfc(houston_polygon, crs = 'EPSG:3083')
-
-#plot just the buildings cropped dataset
-#plot(st_union(buildings_cropped))
-
-#plot buildings_cropped on top of the houston polygon shape to see if it fits inside and compare with the plot before
-# tm_shape(buildings_cropped) +
-#   tm_polygons() +
-#   tm_shape(houston_sf_3083) +
-#   tm_dots()
-
-#make sure we do not have duplicates of unique ID's in our filtered dataset
-#unique(duplicated(buildings_cropped$osm_id))
-
-
 ```
 
 #### Investigate socioeconomic factors
 
-##### load ACS data (10 points)
+##### Load ACS data 
 
--   use `st_read()` to load the geodatabase layers
--   geometries are stored in the `ACS_2019_5YR_TRACT_48_TEXAS` layer
--   income data is stored in the `X19_INCOME` layer
--   select the median income field `B19013e1`
--   hint: reproject data to EPSG:3083
+Now that we know how many homes are impacted by the winter storms, let's go ahead and relate this data with income. Before we can compare the two, I'll need to load in the data. In this section, I'll load in the median income field associated with Houston.
+
 
 ```{r include = FALSE, warning = FALSE}
 #Read in Geometries and Income layer and tidy up column names for easier manipulation:
@@ -340,26 +289,23 @@ texas_income <- texas_income %>%
   rename_at('GEOID', ~'GEOID_Data')
 
 #subset so only texas income has GEOID_Data and B19013e1
-texas_income <- texas_income[c("GEOID_Data", "B19013e1")]
+houston_income <- texas_income[c("GEOID_Data", "B19013e1")]
 
-
-#SELF CHECK:
-#check CRS to make sure its correct
-#st_crs(texas_median)
 
 ```
 
-##### determine which census tracts experienced blackouts (10 points)
+##### Determine which census tracts experienced blackouts
+
+I want to be able to work with my data easily, so I'll go ahead and join the dataset on houses and the dataset on income together. These are the following steps I'll take:
 
 -   join the income data to the census tract geometries
--   hint: make sure to join by geometry ID
 -   spatially join census tract data with buildings determined to be impacted by blackouts
--   find which census tracts had blackouts
+-   how many census tracts had blackouts
 
 ```{r include=TRUE}
 #Join datasets and find out how many census tracks had blackouts:
 #join the two dataset at GEOID_Data
-texas_join <- left_join(texas_gdb, texas_income, by = 'GEOID_Data') %>% 
+texas_join <- left_join(texas_gdb, houston_income, by = 'GEOID_Data') %>% 
   st_transform(crs = "EPSG:3083") %>% #transform CRS to 3083
   rename_at('B19013e1', ~'Income') #rename to Income
 
@@ -375,20 +321,14 @@ texas_building_filter_na <- texas_building_polygon_filter[!is.na(texas_building_
 #look at the length of unique GEOID to see which census tracks had blackouts
 print(paste("Number of census tracts that had blackouts:", length(unique(texas_building_filter_na$GEOID))))
 
-#SELF CHECK: see if there are any NA values still left in the Income column
-# if(any(is.na(texas_building_join_filter$Income) == "FALSE")){
-#   print("these values are good")
-# }  else {
-#   print("these are not good")
-# }
-
 ```
 
-##### compare incomes of impacted tracts to unimpacted tracts (10 points)
+##### compare incomes of impacted tracts to unimpacted tracts 
 
--   create a map of median income by census tract, designating which tracts had blackouts
--   plot the distribution of income in impacted and unimpacted tracts
--   write approx. 100 words summarizing your results and discussing any limitations to this study
+After all this analysis, it's always best practice to visualize what you did. In this case, I'll go ahead and create two visualizations by:
+
+-   creating a map of median income by census tract, designating which tracts had blackouts
+-   plotting the distribution of income in impacted and unimpacted tracts
 
 ```{r, warning = FALSE}
 #Create a map of the median income of Houston census tracks that includes which tracts were impacted by the blackouts:
@@ -402,10 +342,6 @@ texas_houston <- st_crop(texas_join_4326, houston_sf_4326)
 #change the crs to 3083
 texas_houston_3083 <- st_transform(texas_houston, crs = 'EPSG:3083')
 
-
-#SELF CHECK: plot houston to see if I get the polygons outline of each census track and if CRS was changed
-# plot(texas_houston_3083["Income"])
-# st_crs(texas_houston_3083)
 ```
 
 ```{r, warning = FALSE}
@@ -443,4 +379,5 @@ print(income_blackout_map)
 print(income_blackout_hist)
 ```
 
-**Summary**: Looking at the map, many of the impacted tracts were the ones closer to the middle of Houston. A more informative plot is the histogram, where income is shown to have an impact on if there was a blackout in that area. This histogram can be interpreted as a stacked histogram. Many of the blackout areas happened in lower-income tracts, with very few blackouts in areas with higher median incomes. A limitation of this study is not knowing the number of people living in these blackout areas. More people translates to more energy being used. While the blackouts at large could have been caused by the storm, there may be a possibility that the high use of energy in those areas may have contributed to the blackout as seen on the map and graph.
+**Final thoughts**:
+Looking at the map, many of the impacted tracts were the ones closer to the middle of Houston. A more informative plot is the histogram, where income is shown to have an impact on if there was a blackout in that area. This histogram can be interpreted as a stacked histogram. Many of the blackout areas happened in lower-income tracts, with very few blackouts in areas with higher median incomes. A limitation of this study is not knowing the number of people living in these blackout areas. More people translates to more energy being used. While the blackouts at large could have been caused by the storm, there may be a possibility that the high use of energy in those areas may have contributed to the blackout as seen on the map and graph.
